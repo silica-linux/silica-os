@@ -1,0 +1,6 @@
+# Built images and disks
+output/
+# RPMs dropped in for a local build (CI chaining)
+rpms/*.rpm
+# Agent worktrees
+.claude/

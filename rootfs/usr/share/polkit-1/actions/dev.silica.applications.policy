@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<!-- Installing into and removing from /Applications (silica-os#3). The file manager asks for
+     this action when a user who cannot write /var/Applications drops an app bundle there or
+     moves one to the Trash; the privileged helper is part of silica-desktop. -->
+<policyconfig>
+  <vendor>Silica</vendor>
+  <vendor_url>https://github.com/silica-linux</vendor_url>
+
+  <action id="dev.silica.applications.install">
+    <description>Install or remove an application for all users</description>
+    <message>Authentication is required to change the Applications folder.</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+</policyconfig>

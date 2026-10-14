@@ -1,0 +1,16 @@
+# Silica: automatic login into the Silica session, until the Silica greeter (D2) and the
+# first-run assistant (D3, silica-setup) exist. @AUTOLOGIN_USER@ is replaced at image build
+# (Containerfile, AUTOLOGIN_USER); the user itself is created at install time (see README).
+
+[terminal]
+vt = 1
+
+# Runs once at boot, without asking for a password.
+[initial_session]
+command = "silica-session"
+user = "@AUTOLOGIN_USER@"
+
+# After logging out: the text login of greetd, which starts the Silica session.
+[default_session]
+command = "agreety --cmd silica-session"
+user = "greetd"
