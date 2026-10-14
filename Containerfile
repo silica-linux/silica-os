@@ -24,10 +24,11 @@ ARG SILICA_VERSION=0.1.0
 RUN dnf -y install \
         mesa-dri-drivers mesa-vulkan-drivers mesa-libgbm mesa-libEGL \
         libinput libseat xkeyboard-config libxkbcommon \
-        pipewire pipewire-pulseaudio wireplumber \
+        pipewire pipewire-pulseaudio pipewire-utils wireplumber \
         NetworkManager NetworkManager-wifi \
         flatpak xdg-desktop-portal xdg-user-dirs xdg-utils \
         rsms-inter-fonts google-noto-sans-fonts dejavu-sans-fonts fontconfig \
+        adwaita-cursor-theme \
         polkit greetd greetd-selinux \
     && dnf clean all
 
