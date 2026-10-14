@@ -39,7 +39,7 @@ Then reboot. To go back, run `sudo bootc rollback`. This is an alpha, so only do
   - Launcher;
   - Control Center;
   - notifications and the volume and brightness HUD.
-- **Apps:** Mustache (files), Mail, Terminal, Clock and Calculator.
+- **Apps:** Mustache (files), Mail, Terminal, Clock, Calculator and Settings.
 - **Third-party apps:** Flatpak, with Flathub enabled.
 - **Built with:** silica-packages `@PACKAGES@`, on Fedora 44 bootc.
 

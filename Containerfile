@@ -35,7 +35,7 @@ RUN dnf -y install \
 COPY rpms/ /tmp/silica-rpms/
 RUN set -eu; \
     packages="silica-session ossido silica-embedder silica-daemon silica-portal silica-cli \
-        silica-shell silica-flutter-engine silica-icons mustache clock calculator terminal mail"; \
+        silica-shell silica-flutter-engine silica-icons mustache clock calculator terminal mail settings"; \
     if ls /tmp/silica-rpms/*.rpm >/dev/null 2>&1; then \
         dnf -y install /tmp/silica-rpms/*.rpm; \
     elif [ -n "$SILICA_REPO_URL" ]; then \
