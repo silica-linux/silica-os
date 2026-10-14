@@ -2,10 +2,9 @@
 # bootc-image-builder and boots it under KVM (tools/boot-test.sh): the Silica session must come
 # up on DRM/KMS with a non-black first frame. Screenshot and serial console are uploaded.
 #
-# Packages: silica-packages is private, so its release assets are downloaded with the
-# SILICA_PACKAGES_TOKEN secret (a fine-grained token with read access to silica-packages'
-# contents). Without the secret, or before the first packages release, the image is built
-# without them (SILICA_PACKAGES=none) to check the rest, and the boot test is skipped.
+# Packages: the RPMs of the latest silica-packages release `v*` (a public repository: the
+# workflow's own token reads it). Before the first packages release the image is built without
+# them (SILICA_PACKAGES=none) to check the rest, and the boot test is skipped.
 #
 # silica-packages triggers this workflow after a release with a repository_dispatch of type
 # `packages-release` and `client_payload.tag`.
@@ -42,18 +41,14 @@ jobs:
       - name: Silica packages
         id: packages
         env:
-          GH_TOKEN: ${{ secrets.SILICA_PACKAGES_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.client_payload.tag || inputs.packages_tag }}
         run: |
-          if [ -z "$GH_TOKEN" ]; then
-            echo "::warning::SILICA_PACKAGES_TOKEN is not set: building without the Silica packages, no boot test"
-            echo "mode=none" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
           tag="$TAG"
           if [ -z "$tag" ]; then
-            tag=$(gh release list -R silica-linux/silica-packages --limit 1 \
-              --json tagName --jq '.[0].tagName // empty')
+            # Package releases are `v*`; `engine-*` releases only carry the engine tarball.
+            tag=$(gh release list -R silica-linux/silica-packages --limit 50 \
+              --json tagName --jq '[.[].tagName | select(startswith("v"))][0] // empty')
           fi
           if [ -z "$tag" ]; then
             echo "::notice::silica-packages has no release yet: building without the Silica packages, no boot test"

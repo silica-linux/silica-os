@@ -92,9 +92,9 @@ console) and that the screenshot is not black. `output/boot-test/` keeps `screen
 rendering and the serial console; it is never published.
 
 CI (`.github/workflows/image.yml`) does the same on every push with the latest silica-packages
-release, and after each new release (a `packages-release` dispatch from silica-packages). It
-needs the `SILICA_PACKAGES_TOKEN` secret (read access to silica-packages); without it, it only
-builds the image without the Silica packages.
+release (`v*`), and after each new release (a `packages-release` dispatch from
+silica-packages). Before the first packages release it only builds the image without the Silica
+packages.
 
 ## To do
 
