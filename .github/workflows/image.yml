@@ -1,0 +1,103 @@
+# Builds the Silica OS image from the latest silica-packages release, makes a qcow2 with
+# bootc-image-builder and boots it under KVM (tools/boot-test.sh): the Silica session must come
+# up on DRM/KMS with a non-black first frame. Screenshot and serial console are uploaded.
+#
+# Packages: silica-packages is private, so its release assets are downloaded with the
+# SILICA_PACKAGES_TOKEN secret (a fine-grained token with read access to silica-packages'
+# contents). Without the secret, or before the first packages release, the image is built
+# without them (SILICA_PACKAGES=none) to check the rest, and the boot test is skipped.
+#
+# silica-packages triggers this workflow after a release with a repository_dispatch of type
+# `packages-release` and `client_payload.tag`.
+name: image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      packages_tag:
+        description: silica-packages release tag (empty for the latest)
+        required: false
+  repository_dispatch:
+    types: [packages-release]
+
+concurrency:
+  group: image-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Silica packages
+        id: packages
+        env:
+          GH_TOKEN: ${{ secrets.SILICA_PACKAGES_TOKEN }}
+          TAG: ${{ github.event.client_payload.tag || inputs.packages_tag }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::SILICA_PACKAGES_TOKEN is not set: building without the Silica packages, no boot test"
+            echo "mode=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          tag="$TAG"
+          if [ -z "$tag" ]; then
+            tag=$(gh release list -R silica-linux/silica-packages --limit 1 \
+              --json tagName --jq '.[0].tagName // empty')
+          fi
+          if [ -z "$tag" ]; then
+            echo "::notice::silica-packages has no release yet: building without the Silica packages, no boot test"
+            echo "mode=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh release download "$tag" -R silica-linux/silica-packages -p '*.rpm' -D rpms
+          rm -f rpms/*.src.rpm rpms/*-debuginfo-* rpms/*-debugsource-*
+          ls -la rpms
+          echo "mode=required" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Build the image without the Silica packages
+        if: steps.packages.outputs.mode == 'none'
+        run: tools/build-image.sh --no-packages --no-disk
+
+      - name: Build the image and the boot-test disk
+        if: steps.packages.outputs.mode == 'required'
+        run: tools/build-image.sh --test --type qcow2
+
+      - name: Enable KVM
+        if: steps.packages.outputs.mode == 'required'
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Install QEMU
+        if: steps.packages.outputs.mode == 'required'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 qemu-utils
+
+      - name: Boot test
+        if: steps.packages.outputs.mode == 'required'
+        run: tools/boot-test.sh output/qcow2/disk.qcow2 --timeout 900
+
+      - name: Upload the screenshot and the console
+        if: always() && steps.packages.outputs.mode == 'required'
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-test-${{ steps.packages.outputs.tag }}
+          path: |
+            output/boot-test/screenshot.png
+            output/boot-test/console.log
+          if-no-files-found: ignore
