@@ -26,7 +26,7 @@ RUN dnf -y install \
         libinput libseat xkeyboard-config libxkbcommon \
         pipewire pipewire-pulseaudio wireplumber \
         NetworkManager NetworkManager-wifi \
-        flatpak xdg-desktop-portal xdg-user-dirs \
+        flatpak xdg-desktop-portal xdg-user-dirs xdg-utils \
         rsms-inter-fonts google-noto-sans-fonts dejavu-sans-fonts fontconfig \
         polkit greetd greetd-selinux \
     && dnf clean all
