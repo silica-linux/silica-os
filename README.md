@@ -1,3 +1,5 @@
+![Silica OS](.github/banner.png)
+
 # silica-os
 
 La distro di [Silica](https://github.com/silica-linux/silica-desktop): un'immagine bootc sopra
