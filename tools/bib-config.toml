@@ -1,0 +1,9 @@
+# bootc-image-builder customizations for the development and boot-test disks: the user the
+# session logs in as automatically (AUTOLOGIN_USER in the Containerfile). Not for real
+# installations: there the user comes from the installer, and later from the first-run assistant
+# (silica-setup, D3).
+
+[[customizations.user]]
+name = "silica"
+password = "silica"
+groups = ["wheel"]

@@ -88,7 +88,7 @@ RUN set -eu; \
 
 # Leftovers of the package installs in /run, /tmp and /var: the image must not carry state
 # there (bootc copies /var only at install time).
-RUN rm -rf /var/log/dnf5.log /var/cache/libdnf5 /var/cache/swcatalog /var/lib/dnf \
+RUN rm -rf /var/log/dnf5.log /var/cache/libdnf5 /var/cache/swcatalog /var/cache/ldconfig /var/lib/dnf \
         /run/dnf /run/selinux-policy /tmp/* /var/tmp/*
 
 RUN bootc container lint

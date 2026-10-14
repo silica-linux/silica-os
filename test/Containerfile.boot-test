@@ -1,0 +1,19 @@
+# The boot-test layer on top of the Silica OS image (tools/build-image.sh --test). It only
+# opens Ossido's control channel to the host and sends the logs to the serial console; nothing
+# here goes into the published image.
+#
+#   podman build -f test/Containerfile.boot-test --build-arg BASE=localhost/silica-os:latest \
+#     -t localhost/silica-os:boot-test .
+
+ARG BASE=localhost/silica-os:latest
+FROM ${BASE}
+
+# - Ossido listens on the guest's loopback (7991); socat (in the base image) exposes it on 7990,
+#   which QEMU forwards to the host (tools/boot-test.sh).
+# - The shell renders in software: the VM's virtio-vga has no 3D.
+# - Kernel and journal on ttyS0, which tools/boot-test.sh reads.
+COPY test/rootfs/ /
+
+RUN systemctl enable silica-control-forward.service
+
+RUN bootc container lint

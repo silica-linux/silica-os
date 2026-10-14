@@ -1,0 +1,2 @@
+# Boot test only: the kernel console on the serial port, read by tools/boot-test.sh.
+kargs = ["console=tty0", "console=ttyS0,115200n8"]

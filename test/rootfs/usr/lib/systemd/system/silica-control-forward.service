@@ -1,0 +1,11 @@
+[Unit]
+Description=Silica boot test: expose Ossido's control channel to the host
+After=network.target
+
+[Service]
+# Ossido listens on 127.0.0.1:7991 (boot-test.env); QEMU forwards the host's port to 7990.
+ExecStart=/usr/bin/socat TCP-LISTEN:7990,fork,reuseaddr TCP:127.0.0.1:7991
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
