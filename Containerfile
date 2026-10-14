@@ -52,6 +52,11 @@ RUN set -eu; \
     dnf clean all
 
 # Configuration: Applications folder, polkit, greetd, Flatpak remote, session defaults.
+LABEL org.opencontainers.image.source="https://github.com/silica-linux/silica-os" \
+      org.opencontainers.image.title="Silica OS" \
+      org.opencontainers.image.description="Silica desktop on Fedora bootc (alpha)" \
+      org.opencontainers.image.licenses="MIT OR Apache-2.0"
+
 COPY rootfs/ /
 
 # - /Applications for every user, on /var because /usr is read-only (silica-os#3); the directory
