@@ -1,15 +1,31 @@
-![Silica OS](.github/banner.png)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/silica-logo-dark.svg">
+    <img alt="Silica" src=".github/silica-logo-light.svg" width="200">
+  </picture>
+</p>
 
-# silica-os
+<h1 align="center">Silica OS</h1>
 
-La distro di [Silica](https://github.com/silica-linux/silica-desktop): un'immagine bootc sopra
-Fedora Atomic con i pacchetti di `silica-packages` e i default di Silica (Inter, silica-icons,
-aspetto, Flatpak per le app di terzi).
+<p align="center">
+  <b>The Silica distribution.</b><br>
+  A bootc image on top of Fedora Atomic, with Silica as the default session.
+</p>
 
-Perché un sistema a immagini: aggiornamenti atomici con ripristino, come un volume di sistema
-sigillato; l'immagine si costruisce come un container e la CI la pubblica.
+<p align="center">
+  <img alt="Fedora: Atomic · bootc" src="https://img.shields.io/badge/Fedora-Atomic%20%C2%B7%20bootc-51A2DA?style=flat-square&logo=fedora">
+  <img alt="status: planned" src="https://img.shields.io/badge/status-planned-8a8a8a?style=flat-square">
+</p>
 
-Da fare:
-- Containerfile sopra l'immagine Fedora Atomic, con la sessione di Silica come predefinita;
-- la schermata di login (greeter di silica-desktop) e l'assistente al primo avvio (`silica-setup`);
-- pipeline di build e firma, registro delle immagini, ISO di installazione.
+Built from the packages of [`silica-packages`](https://github.com/silica-linux/silica-packages)
+with Silica's defaults (Inter, silica-icons, appearance, Flatpak for third-party apps).
+
+Why an image-based system: atomic updates with rollback, like a sealed system volume; the image
+is built like a container and published by CI.
+
+## To do
+
+- a Containerfile on the Fedora Atomic image, with the Silica session as the default;
+- the login screen (the greeter of silica-desktop) and the first-run assistant
+  ([`silica-setup`](https://github.com/silica-linux/silica-setup));
+- build and signing pipeline, image registry, installation ISO.
