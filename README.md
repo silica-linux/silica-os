@@ -54,7 +54,7 @@ is built like a container and published by CI.
 The image expects these packages: `silica-session` (with `/usr/bin/silica-session` and
 `/usr/share/wayland-sessions/silica.desktop`), `ossido`, `silica-embedder`, `silica-daemon`,
 `silica-portal`, `silica-cli`, `silica-shell`, `silica-flutter-engine`, `silica-icons`,
-`mustache`, `clock`, `calculator`, `terminal`, `mail`, `settings`.
+`mustache`, `clock`, `calculator`, `terminal`, `mail`, `settings`, `preview`.
 
 `silica-session` reads `/etc/silica/session.env` and then `/etc/silica/session.env.d/*.env`:
 `OSSIDO_ARGS` (extra arguments for Ossido) and `SILICA_RENDERER` (renderer of the shell's

@@ -16,7 +16,7 @@ ARG SILICA_PACKAGES=required
 ARG SILICA_REPO_URL=
 # The user the session logs in as until the first-run assistant (D3) and the greeter (D2) exist.
 ARG AUTOLOGIN_USER=silica
-ARG SILICA_VERSION=0.1.0
+ARG SILICA_VERSION=0.1.2
 
 # The system: graphics (Mesa, GBM, libinput), the seat through logind (libseat picks logind when
 # there is no seatd), audio, network, Flatpak for third-party apps, fonts, portals, and greetd
@@ -36,7 +36,7 @@ RUN dnf -y install \
 COPY rpms/ /tmp/silica-rpms/
 RUN set -eu; \
     packages="silica-session ossido silica-embedder silica-daemon silica-portal silica-cli \
-        silica-shell silica-flutter-engine silica-icons mustache clock calculator terminal mail settings"; \
+        silica-shell silica-flutter-engine silica-icons mustache clock calculator terminal mail settings preview"; \
     if ls /tmp/silica-rpms/*.rpm >/dev/null 2>&1; then \
         dnf -y install /tmp/silica-rpms/*.rpm; \
     elif [ -n "$SILICA_REPO_URL" ]; then \
