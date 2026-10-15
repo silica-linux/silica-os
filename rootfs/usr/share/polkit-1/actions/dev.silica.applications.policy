@@ -7,7 +7,7 @@
      moves one to the Trash; the privileged helper is part of silica-desktop. -->
 <policyconfig>
   <vendor>Silica</vendor>
-  <vendor_url>https://github.com/silica-linux</vendor_url>
+  <vendor_url>https://github.com/silica-os</vendor_url>
 
   <action id="dev.silica.applications.install">
     <description>Install or remove an application for all users</description>

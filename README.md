@@ -17,7 +17,7 @@
   <img alt="status: alpha" src="https://img.shields.io/badge/status-alpha-8a8a8a?style=flat-square">
 </p>
 
-Built from the packages of [`silica-packages`](https://github.com/silica-linux/silica-packages)
+Built from the packages of [`silica-packages`](https://github.com/silica-os/silica-packages)
 with Silica's defaults (Inter, silica-icons, appearance, Flatpak for third-party apps).
 
 Why an image-based system: atomic updates with rollback, like a sealed system volume; the image
@@ -33,16 +33,16 @@ is built like a container and published by CI.
   as a whole on every update. `/etc` keeps local changes across updates (three-way merge).
   `/var` holds all state (homes are `/var/home`), and the image's `/var` is copied only at
   install time; what the image needs there at every boot comes from `tmpfiles.d`.
-- **Silica.** The packages of [`silica-packages`](https://github.com/silica-linux/silica-packages)
+- **Silica.** The packages of [`silica-packages`](https://github.com/silica-os/silica-packages)
   (Ossido, the embedder, the shell, the daemon and the portal, the Flutter engine, the apps,
   silica-icons) are part of the image. The session runs Ossido on DRM/KMS with libinput; the
   seat comes from logind through libseat. Until the Silica greeter (D2) and the first-run
-  assistant (D3, [`silica-setup`](https://github.com/silica-linux/silica-setup)) exist, greetd
+  assistant (D3, [`silica-setup`](https://github.com/silica-os/silica-setup)) exist, greetd
   logs the user in automatically (`/etc/greetd/config.toml`); after logging out its text login
   starts the session again.
 - **Third-party apps.** Flatpak, with Flathub configured system-wide
   (`/etc/flatpak/remotes.d`).
-- **Apps by drag and drop** ([silica-os#3](https://github.com/silica-linux/silica-os/issues/3)).
+- **Apps by drag and drop** ([silica-os#3](https://github.com/silica-os/silica-os/issues/3)).
   `/Applications` points to `/var/Applications`, created at boot (`tmpfiles.d`), writable by
   administrators (`wheel`); other users go through the polkit action
   `dev.silica.applications.install`. The registry and the launcher are in silica-desktop.
@@ -67,7 +67,7 @@ storage; the script uses sudo), and for the boot test QEMU/KVM.
 
 ```sh
 # The Silica packages: RPMs in rpms/ (from a silica-packages release) …
-gh release download <tag> -R silica-linux/silica-packages -p '*.rpm' -D rpms
+gh release download <tag> -R silica-os/silica-packages -p '*.rpm' -D rpms
 tools/build-image.sh                    # image + output/qcow2/disk.qcow2
 # … or a published dnf repository
 tools/build-image.sh --repo https://…/silica.repo
@@ -99,6 +99,6 @@ packages.
 ## To do
 
 - the login screen (the greeter of silica-desktop, D2) and the first-run assistant
-  ([`silica-setup`](https://github.com/silica-linux/silica-setup), D3);
+  ([`silica-setup`](https://github.com/silica-os/silica-setup), D3);
 - the installation ISO (`anaconda-iso`), signed images in a registry, `bootc upgrade` from it;
 - GPU rendering in the VM test (virtio-gpu with 3D).

@@ -53,7 +53,7 @@ RUN set -eu; \
     dnf clean all
 
 # Configuration: Applications folder, polkit, greetd, Flatpak remote, session defaults.
-LABEL org.opencontainers.image.source="https://github.com/silica-linux/silica-os" \
+LABEL org.opencontainers.image.source="https://github.com/silica-os/silica-os" \
       org.opencontainers.image.title="Silica OS" \
       org.opencontainers.image.description="Silica desktop on Fedora bootc (alpha)" \
       org.opencontainers.image.licenses="MIT OR Apache-2.0"
@@ -77,10 +77,10 @@ RUN set -eu; \
         -e "s/^VERSION=.*/VERSION=\"${SILICA_VERSION} (alpha)\"/" \
         -e 's/^ID=.*/ID=silica/' \
         -e "s/^PRETTY_NAME=.*/PRETTY_NAME=\"Silica ${SILICA_VERSION} (alpha)\"/" \
-        -e 's|^HOME_URL=.*|HOME_URL="https://github.com/silica-linux"|' \
-        -e 's|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://github.com/silica-linux/silica-os"|' \
-        -e 's|^SUPPORT_URL=.*|SUPPORT_URL="https://github.com/silica-linux/silica-os/issues"|' \
-        -e 's|^BUG_REPORT_URL=.*|BUG_REPORT_URL="https://github.com/silica-linux/silica-os/issues"|' \
+        -e 's|^HOME_URL=.*|HOME_URL="https://github.com/silica-os"|' \
+        -e 's|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL="https://github.com/silica-os/silica-os"|' \
+        -e 's|^SUPPORT_URL=.*|SUPPORT_URL="https://github.com/silica-os/silica-os/issues"|' \
+        -e 's|^BUG_REPORT_URL=.*|BUG_REPORT_URL="https://github.com/silica-os/silica-os/issues"|' \
         -e '/^LOGO=/d' -e '/^ANSI_COLOR=/d' -e '/^DEFAULT_HOSTNAME=/d' \
         /usr/lib/os-release; \
     if grep -q '^ID_LIKE=' /usr/lib/os-release; then \

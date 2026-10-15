@@ -25,7 +25,7 @@ The session starts on its own and logs in as user `silica`, password `silica`. T
 From Fedora Silverblue, Kinoite or another bootc system:
 
 ```sh
-sudo bootc switch ghcr.io/silica-linux/silica-os:@TAG@
+sudo bootc switch ghcr.io/silica-os/silica-os:@TAG@
 ```
 
 Then reboot. To go back, run `sudo bootc rollback`. This is an alpha, so only do it on a machine you can afford to break.
@@ -50,4 +50,4 @@ Then reboot. To go back, run `sudo bootc rollback`. This is an alpha, so only do
 - Settings is not there yet. Mail runs on sample data unless you add an account, and OAuth is not done.
 - Some values are still provisional while measurement continues.
 
-Source code and issues are on [GitHub](https://github.com/silica-linux). Please file bug reports in [silica-desktop](https://github.com/silica-linux/silica-desktop/issues).
+Source code and issues are on [GitHub](https://github.com/silica-os). Please file bug reports in [silica-desktop](https://github.com/silica-os/silica-desktop/issues).

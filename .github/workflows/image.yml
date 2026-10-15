@@ -52,7 +52,7 @@ jobs:
           tag="$TAG"
           if [ -z "$tag" ]; then
             # Package releases are `v*`; `engine-*` releases only carry the engine tarball.
-            tag=$(gh release list -R silica-linux/silica-packages --limit 50 \
+            tag=$(gh release list -R silica-os/silica-packages --limit 50 \
               --json tagName --jq '[.[].tagName | select(startswith("v"))][0] // empty')
           fi
           if [ -z "$tag" ]; then
@@ -60,7 +60,7 @@ jobs:
             echo "mode=none" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          gh release download "$tag" -R silica-linux/silica-packages -p '*.rpm' -D rpms
+          gh release download "$tag" -R silica-os/silica-packages -p '*.rpm' -D rpms
           rm -f rpms/*.src.rpm rpms/*-debuginfo-* rpms/*-debugsource-*
           ls -la rpms
           echo "mode=required" >> "$GITHUB_OUTPUT"
@@ -123,7 +123,7 @@ jobs:
       - name: Release container image
         if: startsWith(github.ref, 'refs/tags/v') && steps.packages.outputs.mode == 'required'
         run: |
-          image=ghcr.io/silica-linux/silica-os
+          image=ghcr.io/silica-os/silica-os
           echo "${{ github.token }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
           sudo podman tag localhost/silica-os:latest "$image:${GITHUB_REF_NAME}" "$image:latest"
           sudo podman push "$image:${GITHUB_REF_NAME}"
